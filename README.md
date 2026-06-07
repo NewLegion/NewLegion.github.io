@@ -1,18 +1,18 @@
 # GrowthLoop — Outbound OS
 
-A browser-based outbound marketing platform for managing LinkedIn and email outreach campaigns.
+Une plateforme outbound unifiée, entièrement dans le navigateur, pour gérer la prospection LinkedIn et email.
 
-## Tech Stack
+## Stack technique
 
-- React 18 (UMD, loaded via CDN)
-- Babel Standalone (JSX transpiled in-browser)
-- Vanilla CSS (`styles.css`)
-- No bundler or build tools required
+- React 18 (UMD, chargé via CDN)
+- Babel Standalone (transpilation JSX dans le navigateur)
+- CSS vanilla (`styles.css`)
+- Aucun bundler ni outil de build requis
 
-## Getting Started
+## Démarrage rapide
 
-1. Clone the repository
-2. Open `index.html` with a local HTTP server (required to avoid CORS issues)
+1. Cloner le dépôt
+2. Ouvrir `index.html` via un serveur HTTP local (requis pour éviter les erreurs CORS)
 
 ```bash
 # Python
@@ -22,28 +22,28 @@ python -m http.server 8080
 npx serve .
 ```
 
-3. Navigate to `http://localhost:8080`
+3. Accéder à `http://localhost:8080`
 
-## Project Structure
+## Structure du projet
 
 ```
-├── index.html              # Entry point
-├── app.jsx                 # App shell, routing, and layout
-├── components.jsx          # Shared UI components
-├── icons.jsx               # Icon library
-├── signin.jsx              # Authentication screen
-├── data.js                 # Mock data
-├── styles.css              # Global styles and design tokens
-├── tweaks-panel.jsx        # UI customization panel (density, accent, layout)
-├── views_dashboard.jsx     # Dashboard view
-├── views_prospects.jsx     # Prospects and lists views
-├── views_scraper.jsx       # LinkedIn scraper view
-├── views_sequences.jsx     # LinkedIn sequences view
-├── views_email.jsx         # Email campaigns view
-├── views_email_wizard.jsx  # Campaign creation wizard
-├── views_email_warmup.jsx  # Email warmup view
-├── views_settings.jsx      # Settings view
-└── views_updates.jsx       # Updates / activity feed view
+├── index.html              # Point d'entrée
+├── app.jsx                 # Shell, routing et layout
+├── components.jsx          # Composants UI partagés
+├── icons.jsx               # Bibliothèque d'icônes
+├── signin.jsx              # Écran de connexion
+├── data.js                 # Données mock
+├── styles.css              # Styles globaux et tokens de design
+├── tweaks-panel.jsx        # Panneau de personnalisation (densité, accent, layout)
+├── views_dashboard.jsx     # Vue Dashboard
+├── views_prospects.jsx     # Vue Prospects et listes
+├── views_scraper.jsx       # Vue Scraper LinkedIn
+├── views_sequences.jsx     # Vue Séquences LinkedIn
+├── views_email.jsx         # Vue Campagnes email
+├── views_email_wizard.jsx  # Assistant de création de campagne
+├── views_email_warmup.jsx  # Vue Warmup email
+├── views_settings.jsx      # Vue Paramètres
+└── views_updates.jsx       # Vue Mises à jour / fil d'activité
 ```
 
 ---
@@ -80,17 +80,17 @@ GrowthLoop est une plateforme outbound unifiée qui orchestre la prospection Lin
 
 - Vue tableau avec recherche full-text sur tous les champs
 - Filtres par : entreprise, titre, localisation, industrie, tags, appartenance à une liste
-- L'UX doit permettre un filtrage rapide sans rechargement de page
+- Filtrage rapide sans rechargement de page
 
 ### Lists
 
 - Listes nommées avec indicateurs de santé : actif, bounced, désabonné
-- L'utilisateur crée des segments ciblés pour les séquences ou campagnes
+- Création de segments ciblés pour les séquences ou campagnes
 
 ### Monitor
 
 - Vue dédiée au suivi des comptes cibles dans le temps
-- Signale les changements de poste, nouvelles entrées dans une recherche sauvegardée
+- Signale les changements de poste et les nouvelles entrées dans une recherche sauvegardée
 
 ---
 
@@ -106,7 +106,7 @@ GrowthLoop est une plateforme outbound unifiée qui orchestre la prospection Lin
 4. **Message / InMail** → suivi aux connectés ou InMail aux non-connectés, avec templates
 5. **Branches conditionnelles (v2.4+)** → split selon : a répondu / a accepté / tag personnalisé
 
-### UX de sécurité & limites
+### Sécurité & limites
 
 - Plafonds journaliers visibles et configurables : connexions ≤ 40/j, messages ≤ 80/j, visites ≤ 150/j
 - Fenêtre d'envoi : actions uniquement dans les heures définies par l'utilisateur
@@ -121,7 +121,7 @@ GrowthLoop est une plateforme outbound unifiée qui orchestre la prospection Lin
 
 ---
 
-## Email Campaigns
+## Campagnes Email
 
 **Objectif :** Wizard guidé en 4 étapes pour lancer une campagne sans expertise technique.
 
@@ -143,7 +143,7 @@ GrowthLoop est une plateforme outbound unifiée qui orchestre la prospection Lin
 - Montée progressive du volume d'envoi sur les nouveaux domaines
 - Construit la réputation de l'expéditeur avant les campagnes cold
 
-### Tracking & compliance
+### Tracking & conformité
 
 - Tracking ouvertures : pixel invisible
 - Tracking clics : réécriture de liens
@@ -171,26 +171,26 @@ GrowthLoop est une plateforme outbound unifiée qui orchestre la prospection Lin
 | Gmail | Envoi email OAuth |
 | Outlook / M365 | Envoi email OAuth |
 | LinkedIn | Séquences & scraper |
-| Custom SMTP | Config serveur manuel |
+| Custom SMTP | Configuration serveur manuel |
 | Slack | Alertes prospects & séquences |
 | Sellsy CRM | Sync contacts & deals |
 
 ---
 
-## Settings & Configuration
+## Paramètres & Configuration
 
 Contrôles niveau workspace accessibles aux admins :
 
-- **Email config** : provider, identité expéditeur, plafond journalier, préférences de tracking
-- **LinkedIn config** : compte connecté, plafonds journaliers, fenêtre d'envoi
+- **Email** : provider, identité expéditeur, plafond journalier, préférences de tracking
+- **LinkedIn** : compte connecté, plafonds journaliers, fenêtre d'envoi
 - **Slack** : connecter le workspace pour les notifications outbound
 - **Sellsy** : sync CRM pour contacts et deals
 - **Apparence** : toggle dark/light, densité (comfortable/compact), couleur d'accent
 
 ---
 
-## Screenshots
+## Captures d'écran
 
-| Dashboard | Sequences | Email Campaigns |
+| Dashboard | Séquences | Campagnes Email |
 |-----------|-----------|-----------------|
-| ![Dashboard](screenshots/dash.png) | ![Sequences](screenshots/01-flows.png) | ![Email](screenshots/01-views.png) |
+| ![Dashboard](screenshots/dash.png) | ![Séquences](screenshots/01-flows.png) | ![Email](screenshots/01-views.png) |
