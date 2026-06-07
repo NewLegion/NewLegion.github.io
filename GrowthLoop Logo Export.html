@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GrowthLoop — Logo Export</title>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Geist', system-ui, sans-serif;
+      background: #f4f4f6;
+      color: #111;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      gap: 32px;
+    }
+    h1 { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #888; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 900px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid #e5e5e9;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+      min-height: 160px;
+    }
+    .preview.light  { background: #fff; }
+    .preview.dark   { background: #0f0f12; }
+    .preview.color  { background: linear-gradient(150deg, #4f46e5, #3730a3); }
+    .preview.checks {
+      background-image: linear-gradient(45deg,#eee 25%,transparent 25%),
+                        linear-gradient(-45deg,#eee 25%,transparent 25%),
+                        linear-gradient(45deg,transparent 75%,#eee 75%),
+                        linear-gradient(-45deg,transparent 75%,#eee 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+      background-color: #fff;
+    }
+    .footer {
+      padding: 16px 20px;
+      border-top: 1px solid #e5e5e9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .label { font-size: 12.5px; font-weight: 600; color: #333; }
+    .sublabel { font-size: 11px; color: #999; margin-top: 2px; }
+    .btn-row { display: flex; gap: 6px; }
+    .btn {
+      font-family: inherit;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 6px 13px;
+      border-radius: 7px;
+      border: 1.5px solid #e0e0e6;
+      background: #fff;
+      color: #444;
+      cursor: pointer;
+      transition: background .12s, border-color .12s;
+    }
+    .btn:hover { background: #f0f0f4; border-color: #c8c8d0; }
+    .btn.primary { background: #4f46e5; color: #fff; border-color: transparent; }
+    .btn.primary:hover { background: #4338ca; }
+
+    /* ── Logo SVG previews ── */
+    svg.logo-icon { display: block; }
+    .wordmark { display: flex; align-items: center; gap: 12px; }
+    .wordmark-text { display: flex; flex-direction: column; }
+    .wordmark-name { font-family: 'Geist', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -.025em; line-height: 1; }
+    .wordmark-sub  { font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 400; letter-spacing: .01em; margin-top: 3px; opacity: .6; }
+  </style>
+</head>
+<body>
+
+<h1>GrowthLoop — Logo Assets</h1>
+
+<div class="grid">
+
+  <!-- Icon + Wordmark on white -->
+  <div class="card">
+    <div class="preview light">
+      <div class="wordmark" id="prev-wordmark-light">
+        <svg class="logo-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="44" height="44" rx="11" fill="url(#g1)"/>
+          <circle cx="22" cy="22" r="11" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="22" cy="22" r="5" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="22" cy="22" r="1.5" fill="white"/>
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6366f1"/>
+              <stop offset="1" stop-color="#3730a3"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="wordmark-text">
+          <span class="wordmark-name" style="color:#111;">GrowthLoop</span>
+          <span class="wordmark-sub" style="color:#111;">Outbound OS</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <div class="label">Wordmark — Light</div>
+        <div class="sublabel">For white / light backgrounds</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" onclick="downloadSVG('wordmark-light')">SVG</button>
+        <button class="btn primary" onclick="downloadPNG('wordmark-light', 'GrowthLoop-Wordmark-Light')">PNG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon + Wordmark on dark -->
+  <div class="card">
+    <div class="preview dark">
+      <div class="wordmark" id="prev-wordmark-dark">
+        <svg class="logo-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="44" height="44" rx="11" fill="url(#g2)"/>
+          <circle cx="22" cy="22" r="11" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="22" cy="22" r="5" stroke="white" stroke-width="2" fill="none"/>
+          <circle cx="22" cy="22" r="1.5" fill="white"/>
+          <defs>
+            <linearGradient id="g2" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#6366f1"/>
+              <stop offset="1" stop-color="#3730a3"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="wordmark-text">
+          <span class="wordmark-name" style="color:#fff;">GrowthLoop</span>
+          <span class="wordmark-sub" style="color:#fff;">Outbound OS</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <div class="label">Wordmark — Dark</div>
+        <div class="sublabel">For dark backgrounds</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" onclick="downloadSVG('wordmark-dark')">SVG</button>
+        <button class="btn primary" onclick="downloadPNG('wordmark-dark', 'GrowthLoop-Wordmark-Dark')">PNG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon only on transparent -->
+  <div class="card">
+    <div class="preview checks">
+      <svg id="prev-icon-color" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="80" height="80" rx="20" fill="url(#g3)"/>
+        <circle cx="40" cy="40" r="20" stroke="white" stroke-width="3.5" fill="none"/>
+        <circle cx="40" cy="40" r="9" stroke="white" stroke-width="3.5" fill="none"/>
+        <circle cx="40" cy="40" r="2.8" fill="white"/>
+        <defs>
+          <linearGradient id="g3" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6366f1"/>
+            <stop offset="1" stop-color="#3730a3"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="footer">
+      <div>
+        <div class="label">Icon — Color</div>
+        <div class="sublabel">Square mark, transparent bg</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" onclick="downloadIconSVG('color')">SVG</button>
+        <button class="btn primary" onclick="downloadIconPNG('color', 'GrowthLoop-Icon-Color')">PNG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon only on white bg -->
+  <div class="card">
+    <div class="preview light">
+      <svg id="prev-icon-white" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="80" height="80" rx="20" fill="url(#g4)"/>
+        <circle cx="40" cy="40" r="20" stroke="white" stroke-width="3.5" fill="none"/>
+        <circle cx="40" cy="40" r="9" stroke="white" stroke-width="3.5" fill="none"/>
+        <circle cx="40" cy="40" r="2.8" fill="white"/>
+        <defs>
+          <linearGradient id="g4" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6366f1"/>
+            <stop offset="1" stop-color="#3730a3"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="footer">
+      <div>
+        <div class="label">Icon — on White</div>
+        <div class="sublabel">White background, 512 × 512 px</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn primary" onclick="downloadIconOnWhitePNG('GrowthLoop-Icon-512')">PNG 512px</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+// Build a full SVG string for the wordmark
+function buildWordmarkSVG(dark) {
+  const textColor = dark ? '#ffffff' : '#111111';
+  const subColor  = dark ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.45)';
+  const bg        = dark ? '#0f0f12' : '#ffffff';
+  return `<svg width="320" height="80" viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="80" fill="${bg}"/>
+  <rect x="10" y="10" width="60" height="60" rx="15" fill="url(#wg)"/>
+  <circle cx="40" cy="40" r="17" stroke="white" stroke-width="2.8" fill="none"/>
+  <circle cx="40" cy="40" r="7.5" stroke="white" stroke-width="2.8" fill="none"/>
+  <circle cx="40" cy="40" r="2.2" fill="white"/>
+  <text x="84" y="42" font-family="Geist, system-ui, sans-serif" font-weight="600" font-size="26" fill="${textColor}" letter-spacing="-0.6">GrowthLoop</text>
+  <text x="85" y="60" font-family="Geist, system-ui, sans-serif" font-weight="400" font-size="13" fill="${subColor}" letter-spacing="0.2">Outbound OS</text>
+  <defs>
+    <linearGradient id="wg" x1="10" y1="10" x2="70" y2="70" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#3730a3"/>
+    </linearGradient>
+  </defs>
+</svg>`;
+}
+
+function buildIconSVG(size, transparent) {
+  const r = size;
+  const rx = size * 0.25;
+  const cx = size / 2, cy = size / 2;
+  const r1 = size * 0.275, r2 = size * 0.1125, dot = size * 0.035;
+  const sw1 = size * 0.044, sw2 = size * 0.044;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg">
+  ${transparent ? '' : `<rect width="${size}" height="${size}" fill="white"/>`}
+  <rect width="${size}" height="${size}" rx="${rx}" fill="url(#ig${size})"/>
+  <circle cx="${cx}" cy="${cy}" r="${r1}" stroke="white" stroke-width="${sw1}" fill="none"/>
+  <circle cx="${cx}" cy="${cy}" r="${r2}" stroke="white" stroke-width="${sw2}" fill="none"/>
+  <circle cx="${cx}" cy="${cy}" r="${dot}" fill="white"/>
+  <defs>
+    <linearGradient id="ig${size}" x1="0" y1="0" x2="${size}" y2="${size}" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#3730a3"/>
+    </linearGradient>
+  </defs>
+</svg>`;
+}
+
+// ── PNG via canvas ────────────────────────────────────────────────────────────
+function svgToPNG(svgString, filename, scale) {
+  scale = scale || 2;
+  const blob = new Blob([svgString], { type: 'image/svg+xml' });
+  const url  = URL.createObjectURL(blob);
+  const img  = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width  = img.naturalWidth  * scale;
+    canvas.height = img.naturalHeight * scale;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(scale, scale);
+    ctx.drawImage(img, 0, 0);
+    URL.revokeObjectURL(url);
+    const a = document.createElement('a');
+    a.download = filename + '.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  };
+  img.src = url;
+}
+
+function svgToFile(svgString, filename) {
+  const blob = new Blob([svgString], { type: 'image/svg+xml' });
+  const a = document.createElement('a');
+  a.download = filename + '.svg';
+  a.href = URL.createObjectURL(blob);
+  a.click();
+}
+
+// ── Button handlers ───────────────────────────────────────────────────────────
+function downloadSVG(variant) {
+  const dark = variant.includes('dark');
+  svgToFile(buildWordmarkSVG(dark), 'GrowthLoop-Wordmark-' + (dark ? 'Dark' : 'Light'));
+}
+
+function downloadPNG(variant, filename) {
+  const dark = variant.includes('dark');
+  svgToPNG(buildWordmarkSVG(dark), filename, 3);
+}
+
+function downloadIconSVG(variant) {
+  svgToFile(buildIconSVG(512, true), 'GrowthLoop-Icon');
+}
+
+function downloadIconPNG(variant, filename) {
+  svgToPNG(buildIconSVG(512, true), filename, 1);
+}
+
+function downloadIconOnWhitePNG(filename) {
+  svgToPNG(buildIconSVG(512, false), filename, 1);
+}
+</script>
+</body>
+</html>

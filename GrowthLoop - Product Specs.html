@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GrowthLoop — Product Specs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: oklch(14% 0.01 260);
+      --ink-2: oklch(38% 0.01 260);
+      --ink-3: oklch(56% 0.01 260);
+      --ink-4: oklch(72% 0.01 260);
+      --bg: oklch(98.5% 0.003 260);
+      --surface: #fff;
+      --border: oklch(90% 0.005 260);
+      --accent: oklch(50% 0.22 264);
+      --accent-light: oklch(96% 0.04 264);
+      --accent-mid: oklch(60% 0.22 264);
+      --green: oklch(54% 0.17 160);
+      --green-light: oklch(95% 0.05 160);
+      --amber: oklch(64% 0.18 70);
+      --amber-light: oklch(96% 0.05 70);
+      --violet: oklch(54% 0.2 290);
+      --violet-light: oklch(96% 0.04 290);
+      --teal: oklch(56% 0.16 192);
+      --teal-light: oklch(96% 0.04 192);
+      --r: 10px;
+      --r-sm: 7px;
+    }
+
+    body {
+      font-family: 'Geist', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Layout */
+    .shell { display: flex; min-height: 100vh; }
+
+    .toc {
+      position: fixed; top: 0; left: 0; bottom: 0; width: 220px;
+      background: var(--surface); border-right: 1px solid var(--border);
+      padding: 32px 0; overflow-y: auto;
+      display: flex; flex-direction: column;
+    }
+    .toc-brand { padding: 0 20px 24px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .toc-logo { width: 28px; height: 28px; background: var(--accent); border-radius: 8px; display: grid; place-items: center; }
+    .toc-logo svg { color: #fff; }
+    .toc-name { font-weight: 700; font-size: 14px; }
+    .toc-sub { font-size: 11px; color: var(--ink-3); margin-top: 1px; }
+
+    .toc-section { padding: 4px 20px; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-4); margin-top: 12px; }
+    .toc a { display: block; padding: 5px 20px; font-size: 13px; color: var(--ink-2); text-decoration: none; border-radius: 0; transition: all .12s; }
+    .toc a:hover { color: var(--accent); background: var(--accent-light); }
+    .toc a.active { color: var(--accent); font-weight: 600; background: var(--accent-light); }
+
+    .doc { margin-left: 220px; padding: 64px 80px 120px; max-width: 900px; }
+
+    /* Typography */
+    .doc-header { margin-bottom: 60px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+    .doc-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .doc-title { font-size: 42px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: var(--ink); }
+    .doc-lead { font-size: 17px; color: var(--ink-2); margin-top: 14px; max-width: 540px; line-height: 1.6; }
+    .doc-meta { display: flex; gap: 24px; margin-top: 24px; }
+    .doc-meta span { font-size: 12px; color: var(--ink-4); }
+    .doc-meta b { color: var(--ink-2); font-weight: 600; }
+
+    h2.section-title {
+      font-size: 24px; font-weight: 700; letter-spacing: -.015em; color: var(--ink);
+      margin-top: 72px; margin-bottom: 4px; padding-top: 12px;
+    }
+    .section-desc { font-size: 14px; color: var(--ink-3); margin-bottom: 28px; }
+
+    h3.sub-title {
+      font-size: 15px; font-weight: 700; color: var(--ink); margin-top: 32px; margin-bottom: 10px;
+    }
+
+    p { font-size: 15px; color: var(--ink-2); line-height: 1.7; margin-bottom: 12px; }
+
+    /* Components */
+    .module-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+    .module-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 20px 22px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .module-card-head { display: flex; align-items: center; gap: 10px; }
+    .module-icon {
+      width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; flex-shrink: 0;
+    }
+    .module-name { font-weight: 700; font-size: 14px; }
+    .module-desc { font-size: 13px; color: var(--ink-3); line-height: 1.5; }
+    .module-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 99px; }
+
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-bottom: 28px; }
+    .feature-list li { display: flex; align-items: flex-start; gap: 13px; padding: 14px 18px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .feature-list li:last-child { border-bottom: none; }
+    .feature-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+    .feature-list li span { color: var(--ink-2); line-height: 1.5; }
+    .feature-list li b { color: var(--ink); font-weight: 600; }
+
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 22px; }
+    .stat-val { font-size: 28px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); font-family: 'Geist Mono', monospace; }
+    .stat-label { font-size: 12px; color: var(--ink-3); margin-top: 4px; font-weight: 500; }
+
+    .flow-steps { display: flex; flex-direction: column; gap: 0; }
+    .flow-step { display: flex; gap: 16px; padding: 16px 0; }
+    .flow-step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-light); color: var(--accent); font-size: 12px; font-weight: 700; display: grid; place-items: center; flex-shrink: 0; margin-top: 1px; }
+    .flow-step-body { flex: 1; }
+    .flow-step-body strong { display: block; font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+    .flow-step-body p { margin-bottom: 0; font-size: 13px; }
+    .flow-connector { width: 2px; height: 16px; background: var(--border); margin-left: 13px; }
+
+    .channel-pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; border: 1px solid var(--border); background: var(--surface); }
+
+    .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+    .callout { border-radius: var(--r); padding: 16px 20px; margin-bottom: 24px; display: flex; gap: 12px; align-items: flex-start; }
+    .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .callout p { margin-bottom: 0; font-size: 14px; }
+    .callout-blue { background: var(--accent-light); border: 1px solid oklch(80% 0.08 264); }
+    .callout-green { background: var(--green-light); border: 1px solid oklch(82% 0.08 160); }
+
+    .integration-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    .integration-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 18px; display: flex; align-items: center; gap: 14px; }
+    .int-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .int-name { font-weight: 600; font-size: 13px; }
+    .int-desc { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+    .int-status { margin-left: auto; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 99px; }
+    .status-live { background: var(--green-light); color: var(--green); }
+    .status-soon { background: var(--amber-light); color: var(--amber); }
+    .status-planned { background: oklch(95% 0.01 260); color: var(--ink-3); }
+
+    /* Print */
+    @media print {
+      .toc { display: none; }
+      .doc { margin-left: 0; padding: 48px; }
+    }
+
+    @media (max-width: 860px) {
+      .toc { display: none; }
+      .doc { margin-left: 0; padding: 40px 24px 80px; }
+      .module-grid, .stat-row, .integration-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Table of contents -->
+  <nav class="toc">
+    <div class="toc-brand">
+      <div class="toc-logo">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="toc-name">GrowthLoop</div>
+        <div class="toc-sub">Product Specs v1.0</div>
+      </div>
+    </div>
+    <span class="toc-section">Overview</span>
+    <a href="#overview">What is GrowthLoop?</a>
+    <a href="#modules">Modules</a>
+    <a href="#metrics">Key metrics</a>
+    <span class="toc-section">Features</span>
+    <a href="#prospects">Prospect engine</a>
+    <a href="#linkedin">LinkedIn outreach</a>
+    <a href="#email">Email campaigns</a>
+    <a href="#analytics">Analytics</a>
+    <span class="toc-section">Platform</span>
+    <a href="#integrations">Integrations</a>
+    <a href="#settings">Settings & config</a>
+    <a href="#roadmap">Upcoming</a>
+  </nav>
+
+  <!-- Document body -->
+  <main class="doc">
+
+    <div class="doc-header" id="overview">
+      <div class="doc-eyebrow">Product Specification · June 2026</div>
+      <div class="doc-title">GrowthLoop<br/>Outbound OS</div>
+      <div class="doc-lead">A unified outbound marketing platform that orchestrates LinkedIn and email prospecting, from lead scraping to sequence automation and analytics.</div>
+      <div class="doc-meta">
+        <span><b>Status</b> In development</span>
+        <span><b>Version</b> v2.5 (upcoming)</span>
+        <span><b>Audience</b> Founders, Sales & Growth teams</span>
+      </div>
+    </div>
+
+    <!-- Modules overview -->
+    <h2 class="section-title" id="modules">Platform modules</h2>
+    <p class="section-desc">GrowthLoop is organized into five functional areas accessible from the main navigation.</p>
+
+    <div class="module-grid">
+      <div class="module-card">
+        <div class="module-card-head">
+          <div class="module-icon" style="background:oklch(95% 0.05 160); color:var(--green);">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M3 21h18a9 9 0 0 0-18 0z"/></svg>
+          </div>
+          <div class="module-name">Prospects</div>
+        </div>
+        <div class="module-desc">Central database of leads across LinkedIn and email, with list management and monitoring.</div>
+        <div class="module-tags">
+          <span class="tag" style="background:var(--green-light);color:var(--green);">Database</span>
+          <span class="tag" style="background:var(--green-light);color:var(--green);">Lists</span>
+          <span class="tag" style="background:var(--green-light);color:var(--green);">Monitor</span>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-card-head">
+          <div class="module-icon" style="background:oklch(95% 0.06 264); color:var(--accent);">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13M3 12h9M3 17h11M19 14l3 3-3 3M22 17h-6"/></svg>
+          </div>
+          <div class="module-name">LinkedIn</div>
+        </div>
+        <div class="module-desc">Scrape leads from Sales Navigator and run automated multi-step outreach sequences.</div>
+        <div class="module-tags">
+          <span class="tag" style="background:var(--accent-light);color:var(--accent);">Scraper</span>
+          <span class="tag" style="background:var(--accent-light);color:var(--accent);">Sequences</span>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-card-head">
+          <div class="module-icon" style="background:var(--amber-light); color:var(--amber);">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5h18v11H3zM3 7l9 6 9-6"/></svg>
+          </div>
+          <div class="module-name">Email</div>
+        </div>
+        <div class="module-desc">Build and send personalized email campaigns with warmup, tracking and compliance built-in.</div>
+        <div class="module-tags">
+          <span class="tag" style="background:var(--amber-light);color:var(--amber);">Campaigns</span>
+          <span class="tag" style="background:var(--amber-light);color:var(--amber);">Warmup</span>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-card-head">
+          <div class="module-icon" style="background:var(--violet-light); color:var(--violet);">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v4h-7zM14 11h7v10h-7zM3 14h7v7H3z"/></svg>
+          </div>
+          <div class="module-name">Dashboard</div>
+        </div>
+        <div class="module-desc">Unified view of KPIs, outbound volume, live activity feed and quick navigation.</div>
+        <div class="module-tags">
+          <span class="tag" style="background:var(--violet-light);color:var(--violet);">KPIs</span>
+          <span class="tag" style="background:var(--violet-light);color:var(--violet);">Charts</span>
+          <span class="tag" style="background:var(--violet-light);color:var(--violet);">Activity</span>
+        </div>
+      </div>
+
+      <div class="module-card" style="grid-column: 1 / -1;">
+        <div class="module-card-head">
+          <div class="module-icon" style="background:var(--teal-light); color:var(--teal);">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-4 4v-4H4z"/></svg>
+          </div>
+          <div class="module-name">Updates</div>
+        </div>
+        <div class="module-desc">Built-in changelog publisher. Draft, schedule and send product update emails directly to your contacts from within the platform.</div>
+        <div class="module-tags">
+          <span class="tag" style="background:var(--teal-light);color:var(--teal);">Changelog</span>
+          <span class="tag" style="background:var(--teal-light);color:var(--teal);">Email distribution</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key metrics -->
+    <h2 class="section-title" id="metrics">Key performance indicators</h2>
+    <p class="section-desc">Primary signals tracked across all outbound activity.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-val">21.4%</div>
+        <div class="stat-label">Average reply rate (LinkedIn)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">53%</div>
+        <div class="stat-label">Connection acceptance rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">4,182</div>
+        <div class="stat-label">Prospects scraped / month</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Prospect engine -->
+    <h2 class="section-title" id="prospects">Prospect engine</h2>
+    <p class="section-desc">The foundation layer. Every lead enters GrowthLoop here.</p>
+
+    <h3 class="sub-title">Scraper — LinkedIn Sales Navigator import</h3>
+    <p>Users paste a Sales Navigator search URL. GrowthLoop extracts the result set and normalizes profiles into structured records including name, title, company, email (inferred from domain), location, industry and connection count.</p>
+
+    <ul class="feature-list">
+      <li><span><b>URL-based import:</b> paste any Sales Navigator people/company search URL</span></li>
+      <li><span><b>Saved searches:</b> store and re-run searches to monitor new entrants over time</span></li>
+      <li><span><b>Deduplication:</b> automatic deduplication against existing database on import</span></li>
+      <li><span><b>Bulk CSV import:</b> 4× faster import for lists over 10k rows (v2.4+)</span></li>
+      <li><span><b>Rich profiles:</b> name, title, company, email, location, industry, mutual connections</span></li>
+    </ul>
+
+    <h3 class="sub-title">Database & Lists</h3>
+    <p>All imported prospects live in a searchable, filterable database. Users segment them into named lists for targeting with sequences or campaigns.</p>
+
+    <ul class="feature-list">
+      <li><span><b>Full-text search</b> across all profile fields</span></li>
+      <li><span><b>Filter by:</b> company, title, location, industry, tags, list membership</span></li>
+      <li><span><b>Named lists</b> with health indicators (active, bounced, unsubscribed)</span></li>
+      <li><span><b>Monitor view:</b> track changes in target accounts over time</span></li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- LinkedIn -->
+    <h2 class="section-title" id="linkedin">LinkedIn outreach</h2>
+    <p class="section-desc">Automated, human-paced sequences that respect LinkedIn's daily action limits.</p>
+
+    <h3 class="sub-title">Sequence builder</h3>
+    <p>A visual canvas where users compose multi-step LinkedIn flows. Steps connect top-to-bottom with configurable delays between actions.</p>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-step-num">1</div>
+        <div class="flow-step-body">
+          <strong>View profile</strong>
+          <p>Visits the prospect's LinkedIn profile to signal interest before reaching out.</p>
+        </div>
+      </div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-step-num">2</div>
+        <div class="flow-step-body">
+          <strong>Connection request</strong>
+          <p>Sends a personalized connection note using dynamic variables: <code style="font-family: 'Geist Mono'; font-size:12px; background:var(--bg); padding:1px 5px; border-radius:4px;">{{first}}</code>, <code style="font-family: 'Geist Mono'; font-size:12px; background:var(--bg); padding:1px 5px; border-radius:4px;">{{company}}</code>, <code style="font-family: 'Geist Mono'; font-size:12px; background:var(--bg); padding:1px 5px; border-radius:4px;">{{industry}}</code>.</p>
+        </div>
+      </div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-step-num">3</div>
+        <div class="flow-step-body">
+          <strong>Wait (configurable delay)</strong>
+          <p>Pauses the sequence for N days. Respects the prospect's local timezone and the user's configured sending window.</p>
+        </div>
+      </div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-step-num">4</div>
+        <div class="flow-step-body">
+          <strong>Message / InMail</strong>
+          <p>Sends a follow-up message to connected prospects (or InMail for non-connections). Supports message templates with dynamic variables.</p>
+        </div>
+      </div>
+      <div class="flow-connector"></div>
+      <div class="flow-step">
+        <div class="flow-step-num">5</div>
+        <div class="flow-step-body">
+          <strong>Conditional branches (v2.4+)</strong>
+          <p>Split the flow based on whether a prospect replied, accepted the connection, or matches a custom tag.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub-title">Safety & limits</h3>
+    <ul class="feature-list">
+      <li><span><b>Daily action caps:</b> connection requests ≤ 40/day, messages ≤ 80/day, profile visits ≤ 150/day</span></li>
+      <li><span><b>Sending window:</b> actions only fire within user-defined hours in the prospect's local timezone</span></li>
+      <li><span><b>Weekend toggle:</b> opt-in to Saturday/Sunday activity</span></li>
+      <li><span><b>Human pacing:</b> randomized delays between individual actions</span></li>
+    </ul>
+
+    <h3 class="sub-title">Sequence analytics</h3>
+    <ul class="feature-list">
+      <li><span>Step-level funnel: sent → accepted → replied per step</span></li>
+      <li><span>Aggregate reply rate, acceptance rate, meetings booked per sequence</span></li>
+      <li><span>Prospect-level status tracking throughout the flow</span></li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- Email -->
+    <h2 class="section-title" id="email">Email campaigns</h2>
+    <p class="section-desc">Cold email at scale with deliverability at the core.</p>
+
+    <h3 class="sub-title">Campaign workflow</h3>
+    <p>A guided 4-step wizard: define audience → compose message → review → launch.</p>
+
+    <ul class="feature-list">
+      <li><span><b>Dynamic personalization:</b> <code style="font-family:'Geist Mono';font-size:12px;background:var(--bg);padding:1px 5px;border-radius:4px;">{{company}}</code>, <code style="font-family:'Geist Mono';font-size:12px;background:var(--bg);padding:1px 5px;border-radius:4px;">{{first}}</code> and custom fields in subject and body</span></li>
+      <li><span><b>Provider support:</b> Gmail, Outlook, or custom SMTP with full configuration</span></li>
+      <li><span><b>Daily sending cap:</b> configurable limit to protect deliverability and stay within provider thresholds</span></li>
+      <li><span><b>Campaign states:</b> Draft → Scheduled → Sending → Completed</span></li>
+    </ul>
+
+    <h3 class="sub-title">Email warmup</h3>
+    <p>Gradually ramps sending volume on new domains to build sender reputation before launching cold campaigns.</p>
+
+    <h3 class="sub-title">Tracking & compliance</h3>
+    <ul class="feature-list">
+      <li><span><b>Open tracking:</b> invisible pixel inserted to measure open rates</span></li>
+      <li><span><b>Click tracking:</b> link rewriting to measure CTR per campaign</span></li>
+      <li><span><b>Unsubscribe footer:</b> 1-click opt-out automatically appended (recommended, toggleable)</span></li>
+      <li><span><b>Bounce & unsub tracking:</b> automatically removes bounced and opted-out addresses from future sends</span></li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- Analytics -->
+    <h2 class="section-title" id="analytics">Analytics & dashboard</h2>
+    <p class="section-desc">Cross-channel visibility without switching tools.</p>
+
+    <ul class="feature-list">
+      <li><span><b>Outbound volume chart:</b> messages sent + replies over the last 14 days, area chart</span></li>
+      <li><span><b>KPI cards:</b> prospects scraped, messages sent, reply rate, meetings booked — each with delta vs. prior period and sparkline</span></li>
+      <li><span><b>Live activity feed:</b> real-time stream of replies, accepts, opens, clicks, meetings and unsubscribes</span></li>
+      <li><span><b>Active campaigns table:</b> cross-LinkedIn and email view with reply rates and status</span></li>
+      <li><span><b>Step-level funnels (v2.3+):</b> visualize drop-off at each sequence step</span></li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- Integrations -->
+    <h2 class="section-title" id="integrations">Integrations</h2>
+    <p class="section-desc">GrowthLoop connects to the tools in your existing stack.</p>
+
+    <div class="integration-grid">
+      <div class="integration-card">
+        <div class="int-dot" style="background:#EA4335;"></div>
+        <div>
+          <div class="int-name">Gmail</div>
+          <div class="int-desc">OAuth email sending</div>
+        </div>
+        <span class="int-status status-live">Live</span>
+      </div>
+      <div class="integration-card">
+        <div class="int-dot" style="background:#0078D4;"></div>
+        <div>
+          <div class="int-name">Outlook / M365</div>
+          <div class="int-desc">OAuth email sending</div>
+        </div>
+        <span class="int-status status-live">Live</span>
+      </div>
+      <div class="integration-card">
+        <div class="int-dot" style="background:#0A66C2;"></div>
+        <div>
+          <div class="int-name">LinkedIn</div>
+          <div class="int-desc">Sequences & scraper</div>
+        </div>
+        <span class="int-status status-live">Live</span>
+      </div>
+      <div class="integration-card">
+        <div class="int-dot" style="background:#611f69;"></div>
+        <div>
+          <div class="int-name">Slack</div>
+          <div class="int-desc">Prospect & sequence alerts</div>
+        </div>
+        <span class="int-status status-soon">In progress</span>
+      </div>
+      <div class="integration-card">
+        <div class="int-dot" style="background:#0070f3;"></div>
+        <div>
+          <div class="int-name">Sellsy CRM</div>
+          <div class="int-desc">Contact & deal sync</div>
+        </div>
+        <span class="int-status status-soon">In progress</span>
+      </div>
+      <div class="integration-card">
+        <div class="int-dot" style="background:#666;"></div>
+        <div>
+          <div class="int-name">Custom SMTP</div>
+          <div class="int-desc">Manual server config</div>
+        </div>
+        <span class="int-status status-live">Live</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Settings -->
+    <h2 class="section-title" id="settings">Settings & configuration</h2>
+    <p class="section-desc">Workspace-level controls available to account admins.</p>
+
+    <ul class="feature-list">
+      <li><span><b>Email config:</b> provider, sender identity, daily cap, tracking preferences</span></li>
+      <li><span><b>LinkedIn config:</b> connected account, daily action limits, sending window</span></li>
+      <li><span><b>Slack:</b> connect workspace for outbound notifications</span></li>
+      <li><span><b>Sellsy:</b> CRM sync for contacts and deals</span></li>
+      <li><span><b>Appearance:</b> light / dark mode toggle, density (comfortable / compact), accent color</span></li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <!-- Roadmap -->
+    <h2 class="section-title" id="roadmap">Upcoming — v2.5</h2>
+    <p class="section-desc">Features confirmed for the next release cycle.</p>
+
+    <div class="callout callout-blue">
+      <div class="callout-icon">🛤️</div>
+      <p><b>Unified inbox</b> — Reply to LinkedIn messages and email conversations from a single inbox, threaded by prospect. Eliminates tab-switching during follow-ups.</p>
+    </div>
+    <div class="callout callout-green">
+      <div class="callout-icon">✦</div>
+      <p><b>Reusable message snippets</b> — Save top-performing openers and drop them into any sequence step with one click.</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Highlight active TOC link on scroll
+  const anchors = document.querySelectorAll('[id]');
+  const links = document.querySelectorAll('.toc a');
+  function onScroll() {
+    let current = '';
+    anchors.forEach(a => {
+      if (window.scrollY >= a.offsetTop - 100) current = a.id;
+    });
+    links.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+</body>
+</html>
